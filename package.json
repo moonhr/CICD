@@ -1,0 +1,8 @@
+{
+  "name": "CICD",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/moonhr/CICD.git",
+  "author": "moonhr <moonhr153@gmail.com>",
+  "license": "MIT"
+}
