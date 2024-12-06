@@ -5,6 +5,9 @@
   "repository": "https://github.com/moonhr/CICD.git",
   "author": "moonhr <moonhr153@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
   "devDependencies": {
     "typescript": "^5.7.2"
   }

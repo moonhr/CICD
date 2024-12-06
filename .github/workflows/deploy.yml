@@ -1,25 +1,41 @@
-name: Deploy to S3
+name: Build and Deploy to S3
 
 on:
   push:
     branches:
-      - main
+      - main # main 브랜치에 푸시될 때 실행
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Repository 체크아웃
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # 2. Node.js 설정
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # 사용할 Node.js 버전
+
+      # 3. Dependencies 설치
+      - name: Install Dependencies
+        run: yarn install
+
+      # 4. TypeScript 빌드
+      - name: Build TypeScript
+        run: yarn build
+
+      # 5. AWS CLI 설정
       - name: Configure AWS CLI
         uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          aws-region: ap-northeast-2 # S3 버킷의 리전
 
+      # 6. S3로 배포
       - name: Deploy to S3
-        run: |
-          aws s3 sync ./dist s3://cicd-static-site/ --delete
+        run: aws s3 sync ./dist s3://cicd-static-site/ --delete
